@@ -108,8 +108,8 @@ void InitSubwpnDefs(void);
 void InitGfxEquipIcons(FILE* f);
 void InitPalEquipIcons(FILE* f);
 void InitVbVh(void);
-bool InitSfxData(const char* content);
-bool InitXaData(const char* content);
+static bool InitSfxData(FileStringified* file);
+static bool InitXaData(FileStringified* file);
 
 bool InitGame(void) {
     if (!InitPlatform()) {
@@ -212,11 +212,11 @@ bool InitGame(void) {
     FileRead(InitPalEquipIcons, "assets/dra/g_PalEquipIcon.bin");
     InitVbVh();
 
-    if (!FileStringify(InitSfxData, "assets/dra/sfx.json")) {
+    if (!FileStringify(InitSfxData, "assets/dra/sfx.json", NULL)) {
         WARNF("failed to init sfx");
     }
 
-    if (!FileStringify(InitXaData, "assets/dra/music_xa.json")) {
+    if (!FileStringify(InitXaData, "assets/dra/music_xa.json", NULL)) {
         WARNF("failed to init xa data");
     }
 
@@ -238,7 +238,8 @@ bool FileRead(bool (*cb)(FILE* file), const char* path) {
     fclose(f);
     return r;
 }
-bool FileStringify(bool (*cb)(const char* content), const char* path) {
+bool FileStringify(
+    bool (*cb)(FileStringified* file), const char* path, void* param) {
     INFOF("open '%s'", path);
     FILE* f = fopen(path, "rb");
     if (f == NULL) {
@@ -267,7 +268,12 @@ bool FileStringify(bool (*cb)(const char* content), const char* path) {
 
     ((char*)content)[len] = '\0';
 
-    bool r = cb(content);
+    FileStringified file;
+    file.path = path;
+    file.content = content;
+    file.length = len;
+    file.param = param;
+    bool r = cb(&file);
     free(content);
     fclose(f);
     return r;
@@ -466,8 +472,8 @@ void InitVbVh() {
         }                                                                      \
     }
 
-bool InitSfxData(const char* content) {
-    cJSON* json = cJSON_Parse(content);
+static bool InitSfxData(FileStringified* file) {
+    cJSON* json = cJSON_Parse(file->content);
     cJSON* array = cJSON_GetObjectItemCaseSensitive(json, "asset_data");
     if (cJSON_IsArray(array)) {
         int len = cJSON_GetArraySize(array);
@@ -490,8 +496,8 @@ bool InitSfxData(const char* content) {
     return true;
 }
 
-bool InitXaData(const char* content) {
-    cJSON* json = cJSON_Parse(content);
+static bool InitXaData(FileStringified* file) {
+    cJSON* json = cJSON_Parse(file->content);
     cJSON* array = cJSON_GetObjectItemCaseSensitive(json, "asset_data");
     if (cJSON_IsArray(array)) {
         int len = cJSON_GetArraySize(array);
