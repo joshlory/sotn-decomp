@@ -59,9 +59,9 @@ static u16* g_Cluts[] = {
 };
 
 void InitStageDummy(Overlay* o) {
-    FILE* f;
+    LoadReset();
 
-    f = fopen("assets/st/wrp/D_80181D08.dec", "rb");
+    FILE* f = fopen("assets/st/wrp/D_80181D08.dec", "rb");
     if (f) {
         fseek(f, 0, SEEK_END);
         size_t len = ftell(f);
