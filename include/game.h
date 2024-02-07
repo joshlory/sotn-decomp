@@ -189,8 +189,8 @@ typedef struct Prim {
 #define FLAG_UNK_40000 0x40000
 #define FLAG_UNK_80000 0x80000
 #define FLAG_UNK_100000 0x100000
-#define FLAG_UNK_800000 0x800000
 #define FLAG_UNK_00200000 0x00200000
+#define FLAG_UNK_800000 0x800000
 
 // When an entity used AllocPrimitives and their primIndex set.
 // At their destruction they need to free the prims with FreePrimitives.
