@@ -1,19 +1,23 @@
 #include "wrp.h"
 #include "sfx.h"
 
-extern u16 D_80180470[];
+extern u16 g_EInitGeneric[];
 extern u16 D_801804C4[];
 extern u32 D_80180648;
 
 #ifndef NON_MATCHING
 INCLUDE_ASM("st/wrp/nonmatchings/73A0", EntityWarpRoom);
 #else
-extern u8 D_8003BEBC[];
 extern s32 D_8003C8B8;
 extern s32 D_80193AA0; // rename into move_room
 extern s32 D_80193AA4;
 extern s32 D_80193AA8;
 extern s32 D_80193AAC;
+
+extern const char D_80186E30[];
+extern const char D_80186E3C[];
+extern const char D_80186E4C[];
+extern const char D_80186E5C[];
 
 // Handles everything about the warp room.
 // It is responsible to spawn the colourful background, the stones on the
@@ -34,7 +38,7 @@ void EntityWarpRoom(Entity* self) {
     switch (self->step) {
     case 0:
         // Initialize all the objects in the warp room
-        InitializeEntity(D_80180470);
+        InitializeEntity(g_EInitGeneric);
         primIndex = g_api.AllocPrimitives(PRIM_GT4, 24);
         if (primIndex == -1) {
             self->step = 0;
@@ -97,13 +101,13 @@ void EntityWarpRoom(Entity* self) {
             }
         }
 
-        self->unk3C = 1;
+        self->hitboxState = 1;
         self->hitboxWidth = 2;
         self->hitboxHeight = 16;
-        self->unk12 += 16;
+        self->hitboxOffY += 16;
         D_80180648 = 0;
-        *D_8003BEBC |= 1;
-        *D_8003BEBC |= 1 << self->params;
+        g_CastleFlags[0xD0] |= 1;
+        g_CastleFlags[0xD0] |= 1 << self->params;
         moveX = g_Tilemap.scrollX.i.hi + (&PLAYER)->posX.i.hi;
         if (moveX > 0x60 && moveX < 0xA0) {
             g_Player.D_80072EFC = 0x10;
@@ -116,7 +120,7 @@ void EntityWarpRoom(Entity* self) {
 
     case 1:
         // Wait for player to press the UP button
-        if (self->unk48 != 0 && g_pads->pressed & 0x1000 &&
+        if (self->hitFlags != 0 && g_pads->pressed & 0x1000 &&
             !(g_Player.unk0C & 0xC5CF3EF7)) {
             D_8003C8B8 = 0;
             g_Player.D_80072EF4 = 0;
@@ -175,7 +179,7 @@ void EntityWarpRoom(Entity* self) {
             if (move_room >= 5) {
                 move_room = 0;
             }
-            if (*D_8003BEBC >> move_room & 1) {
+            if (g_CastleFlags[0xD0] >> move_room & 1) {
                 break;
             }
             move_room++;

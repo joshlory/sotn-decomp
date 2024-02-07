@@ -1,5 +1,7 @@
 #include "stage.h"
 
+#define OVL_EXPORT(x) WRP_##x
+
 #define CASTLE_FLAG_BANK 0x00
 
 // WRP Sound IDs
@@ -31,11 +33,16 @@ typedef enum {
     E_ID_15,
 } EntityIDs;
 
+typedef struct {
+    s16 x, y;
+} WarpCoord;
+
 // *** EntitySoulStealOrb properties START ***
 
 extern u16 g_InitializeData0[];
 extern u16 D_80180458[];
 extern u16 D_80180608[];
+extern WarpCoord D_8018065C[];
 extern u16 D_80180FE8[];
 extern u32 D_80181044[];
 extern u16 D_801810A0[]; // NOTE(sestren): Random angle offsets?
@@ -43,6 +50,8 @@ extern u16 D_801810B0[]; // NOTE(sestren): Animation frame properties?
 extern u32 D_80181110[];
 
 // *** EntitySoulStealOrb properties END ***
+
+extern u16 g_ItemIconSlots[32];
 
 void func_8018F838(Entity*);
 void EntityUnkId15(Entity* entity);

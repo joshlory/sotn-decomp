@@ -17,6 +17,7 @@ u32 g_CdStep;
 GameState g_GameState;
 Entity g_Entities[TOTAL_ENTITY_COUNT];
 unkGraphicsStruct g_unkGraphicsStruct;
+s32 g_entityDestroyed[18] = {0};
 Primitive g_PrimBuf[MAX_PRIM_COUNT];
 FgLayer D_8003C708;
 s16 D_8003C710;
@@ -78,6 +79,8 @@ s32 D_8006C390;
 u16 D_8003C104[0x400];
 s32 D_8003C738;
 u8 g_CastleFlags[0x300];
+u8 D_8003BEEC[0x200]; // part of g_CastleFlags or second array?
+u8 D_8003BF9C[0x100]; // not sure if it is part of D_8003BEEC?
 s32 D_8006C374;
 s32 D_8006C378;
 u16 D_8003C3C2[1];
@@ -92,7 +95,6 @@ Event g_EvSwCardEnd;
 Event g_EvSwCardErr;
 Event g_EvSwCardTmo;
 s32 D_80073074;
-u16 D_800734C0;
 Event g_EvSwCardNew;
 s32 D_8007307C;
 s32 D_80073080;
@@ -384,9 +386,19 @@ u16 D_800DB0D4[0x10] = {0};
 u16 D_800DB0F4[0x10] = {0};
 u16 D_800DB114[0x70] = {0};
 u16 D_800DB1F4[0xE0] = {0};
-s16* D_800CF324[] = {NULL};
+
+s16 D_800CF748[] = {0x8000, 0xFFF0, 0xFFE9, 0x0000};
+s16* D_800CF324[] = {NULL, D_800CF748};
 s16* D_800CFF10[] = {NULL};
-s16* D_800D0F68[] = {NULL};
+s16 D_800D11EC[] = {
+    0x0001, 0x0000, 0xFFF5, 0xFFF1, 0x0018, 0x0018, 0x0190,
+    0x0078, 0x0080, 0x0080, 0x0098, 0x0098, 0x0000, 0x0000,
+};
+s16 D_800D1208[] = {
+    0x0001, 0x0002, 0xFFF4, 0xFFF1, 0x0018, 0x0018, 0x0190,
+    0x0078, 0x0080, 0x0080, 0x0098, 0x0098, 0x0000, 0x0000,
+};
+s16* D_800D0F68[] = {NULL, D_800D11EC, D_800D1208};
 s16* D_800D2BF4[] = {NULL};
 s16* D_800D2CF8[] = {NULL};
 s16* D_800D2FFC[] = {NULL};

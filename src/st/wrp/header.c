@@ -1,4 +1,4 @@
-#include "stage.h"
+#include "wrp.h"
 
 void Update(void);
 void TestCollisions(void);
@@ -14,7 +14,7 @@ extern RoomHeader g_Rooms[];
 extern s16** g_SpriteBanks[];
 extern void* g_Cluts[];
 extern RoomDef g_TileLayers[];
-extern void* g_EntityGfxs[];
+extern void* OVL_EXPORT(g_EntityGfxs)[];
 void UpdateStageEntities(void);
 
 Overlay g_StageOverlay = {
@@ -27,7 +27,7 @@ Overlay g_StageOverlay = {
     /* 0x18 */ g_Cluts,
     /* 0x1C */ NULL,
     /* 0x20 */ g_TileLayers,
-    /* 0x24 */ g_EntityGfxs,
+    /* 0x24 */ OVL_EXPORT(g_EntityGfxs),
     /* 0x28 */ UpdateStageEntities,
     /* 0x2C */ 0x00000000,
     /* 0x30 */ 0x00000000,
@@ -64,7 +64,7 @@ s16** g_SpriteBanks[] = {
     /* 0x09C */ 0x00000000,
 };
 
-u32 D_80181D08[];
+extern u32 D_80181D08[];
 void* D_801800A0[] = {
     /* 0x0A0 */ (void*)0x00000005,
     /* 0x0A4 */ (void*)0x00002000,

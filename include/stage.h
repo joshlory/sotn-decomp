@@ -21,11 +21,8 @@ extern u16 g_ItemIconSlots[0x20];
 extern u16 UNK_Invincibility0[];
 
 s32 Random();
-void Update(void);
 void CreateEntityFromEntity(u16 entityId, Entity* source, Entity* entity);
 void CreateEntityFromLayout(Entity* entity, LayoutEntity* initDesc);
-void DestroyEntity(Entity*);
-void DestroyEntitiesFromIndex(s16 index);
 s32 AnimateEntity(const u8 frames[], Entity* entity);
 void MoveEntity();
 void FallEntity(void);

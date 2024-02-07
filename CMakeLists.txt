@@ -110,6 +110,22 @@ set(SOURCE_FILES_STAGE_SEL
     src/st/sel/3642C.c
 )
 
+set(SOURCE_FILES_STAGE_WRP
+    src/pc/stages/stage_wrp.c
+    src/st/wrp/6FD0.c
+    src/st/wrp/73A0.c
+    src/st/wrp/random.c
+    src/st/wrp/update.c
+    src/st/wrp/update_stage_entities.c
+    src/st/wrp/861C.c
+    src/st/wrp/D020.c
+    src/st/wrp/entity_relic_orb.c
+    src/st/wrp/entity_heart_drop.c
+    src/st/wrp/entity_message_box.c
+    src/st/wrp/F420.c
+    src/st/wrp/prim_helpers.c
+)
+
 # organization is:
 # two executables, sdl2 and null, plus a shared library "core"
 # any executable links core (which is pc shared code + sotn psx code)
@@ -126,6 +142,7 @@ set(SOURCE_FILES_CORE
     ${SOURCE_FILES_3RD}
     ${SOURCE_FILES_DRA}
     ${SOURCE_FILES_STAGE_SEL}
+    ${SOURCE_FILES_STAGE_WRP}
 )
 
 add_library(core ${SOURCE_FILES_CORE})
