@@ -2,20 +2,14 @@ pre-commit
 black
 pycparser
 watchdog
-tqdm
-intervaltree
-colorama
 python-Levenshtein
 cxxfilt
 mapfile-parser==2.1.4
 tabulate
 requests
 graphviz
-# splat
-spimdisasm==1.18.0
-rabbitizer==1.7.0
+splat64==0.23.1
+spimdisasm==1.24.3
 n64img==0.3.3
-PyYAML
-pylibyaml
 pygfxd
 pillow
