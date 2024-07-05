@@ -913,7 +913,8 @@ typedef struct {
     s16 unk90;
     s16 unk92;
     s16 unk94;
-    s16 pad96[3];
+    s16 pad96;
+    s32 unk98;
     s16 unk9C;
 } ET_HitByLightning;
 
@@ -1166,6 +1167,11 @@ typedef struct {
     s16 unk86;
 } ET_80129864;
 
+typedef struct {
+    s16 timer;
+    s16 unk7E;
+} ET_PinkEffect;
+
 typedef union { // offset=0x7C
     struct Primitive* prim;
     char stub[0x40];
@@ -1274,4 +1280,5 @@ typedef union { // offset=0x7C
     ET_80123B40 et_80123B40;
     ET_80129864 et_80129864;
     ET_801B28E4 et_801B28E4;
+    ET_PinkEffect pinkeffect;
 } Ext;

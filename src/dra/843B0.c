@@ -793,28 +793,28 @@ void EntityHolyWater(Entity* entity) {
         if (temp2 != 0) {
             PlaySfx(0x69A);
             CreateEntFactoryFromEntity(entity, FACTORY(0, 59), 0);
-            entity->ext.generic.unk7C.s = 0x10;
+            entity->ext.factory.unk7C = 0x10;
             entity->animSet = ANIMSET_DRA(0);
             entity->step = 2;
         }
         break;
 
     case 2:
-        if (!(entity->ext.generic.unk7C.s & 3)) {
+        if (!(entity->ext.factory.unk7C & 3)) {
             CreateEntFactoryFromEntity(entity, FACTORY(D_8013841C << 8, 28),
-                                       entity->ext.generic.unkB2 << 9);
+                                       entity->ext.factory.unkB2 << 9);
             D_8013841C++;
         }
-        entity->ext.generic.unk7C.s--;
-        if (entity->ext.generic.unk7C.s == 0) {
-            entity->ext.generic.unk7C.s = 4;
+        entity->ext.factory.unk7C--;
+        if (entity->ext.factory.unk7C == 0) {
+            entity->ext.factory.unk7C = 4;
             entity->step++;
         }
         break;
 
     case 3:
-        entity->ext.generic.unk7C.s--;
-        if (entity->ext.generic.unk7C.s == 0) {
+        entity->ext.factory.unk7C--;
+        if (entity->ext.factory.unk7C == 0) {
             DestroyEntity(entity);
         }
         break;
@@ -1172,7 +1172,7 @@ void EntitySubwpnCrashCrossParticles(Entity* self) {
         if (self->primIndex != -1) {
             self->flags = FLAG_UNK_04000000 | FLAG_HAS_PRIMS;
             // entity lives for 192 frames
-            self->ext.generic.unk7C.s = 192;
+            self->ext.timer.t = 192;
             self->step++;
             return;
         }
@@ -1181,12 +1181,12 @@ void EntitySubwpnCrashCrossParticles(Entity* self) {
     }
     // This is some kind of time to live, since it decrements and if 0 gets
     // destroyed.
-    if (--self->ext.generic.unk7C.s == 0) {
+    if (--self->ext.timer.t == 0) {
         DestroyEntity(self);
         return;
     }
     // On every third frame, as long as we have over 9 frames left alive
-    if ((self->ext.generic.unk7C.s >= 9) && !(self->ext.generic.unk7C.s & 3)) {
+    if ((self->ext.timer.t >= 9) && !(self->ext.timer.t & 3)) {
         // iterate through primtives until we find one where r0 == 0, and set to
         // 1
         for (prim = &g_PrimBuf[self->primIndex]; prim != NULL;
@@ -1399,7 +1399,7 @@ void EntityHellfireNormalFireball(Entity* entity) {
         entity->facingLeft = (PLAYER.facingLeft + 1) & 1;
         SetSpeedX(D_800B0830[entity->params]);
         entity->velocityY = D_800B083C[entity->params];
-        entity->ext.generic.unk7C.s = 0x14;
+        entity->ext.timer.t = 0x14;
         func_8011A328(entity, 2);
         entity->hitboxWidth = 4;
         entity->hitboxHeight = 4;
@@ -1408,8 +1408,8 @@ void EntityHellfireNormalFireball(Entity* entity) {
 
     case 1:
         if (entity->hitFlags == 0) {
-            entity->ext.generic.unk7C.s--;
-            if ((entity->ext.generic.unk7C.s) == 0) {
+            entity->ext.timer.t--;
+            if ((entity->ext.timer.t) == 0) {
                 entity->step++;
             }
             entity->posX.val += entity->velocityX;

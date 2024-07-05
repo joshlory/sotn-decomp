@@ -671,10 +671,10 @@ void EntityHitByLightning(Entity* self) {
                    ((rand() % 8) + 8));
         yOffset = (-((rsin(self->ext.hitbylightning.unk7C) * temp_s2) >> 7) *
                    ((rand() % 8) + 0xA)) +
-                  self->ext.generic.unk98;
+                  self->ext.hitbylightning.unk98;
         self->posX.val = xOffset + PLAYER.posX.val;
         self->posY.val = yOffset + PLAYER.posY.val;
-        self->ext.generic.unk98 -= 0x8000;
+        self->ext.hitbylightning.unk98 -= 0x8000;
         break;
     }
 
@@ -898,13 +898,12 @@ INCLUDE_ASM("dra/nonmatchings/7E4BC", EntityTransparentWhiteCircle);
 void EntityPlayerPinkEffect(Entity* self) {
     s16 paramsHi = (self->params & 0x7F00) >> 8;
     Unkstruct_800ADEF0* data_idx = (Unkstruct_800ADEF0*)&D_800ADEF0[paramsHi];
-    u32 temp2;
 
     switch (self->step) {
     case 0:
         self->flags = FLAG_UNK_04000000 | FLAG_UNK_40000 | FLAG_UNK_20000 |
                       FLAG_UNK_10000;
-        self->ext.timer.t = data_idx->unk0[0];
+        self->ext.pinkeffect.timer = data_idx->unk0[0];
         if (data_idx->unk18 != 0x83) {
             PlaySfx(0x668);
         }
@@ -916,26 +915,25 @@ void EntityPlayerPinkEffect(Entity* self) {
         self->step += 1;
         break;
     case 1:
-        if (--self->ext.timer.t != 0) {
+        if (--self->ext.pinkeffect.timer != 0) {
             return;
         }
-        if (data_idx->pad2[self->ext.factory.unk7E]) {
+        if (data_idx->pad2[self->ext.pinkeffect.unk7E]) {
             CreateEntFactoryFromEntity(
                 self,
                 // factory changed
-                (data_idx->pad2[self->ext.factory.unk7E] +
-                 (data_idx->unk16[self->ext.factory.unk7E] << 16)),
+                (data_idx->pad2[self->ext.pinkeffect.unk7E] +
+                 (data_idx->unk16[self->ext.pinkeffect.unk7E] << 16)),
                 0);
-            if (data_idx->pad2[self->ext.factory.unk7E] == 0x28) {
+            if (data_idx->pad2[self->ext.pinkeffect.unk7E] == 0x28) {
                 PlaySfx(0x67D);
             }
         }
 
-        self->ext.factory.unk7E++;
-        self->ext.timer.t = data_idx->unk0[self->ext.factory.unk7E];
-        if (self->ext.timer.t == 0xFF) {
-            temp2 = data_idx->unk18;
-            switch (temp2) {
+        self->ext.pinkeffect.unk7E++;
+        self->ext.pinkeffect.timer = data_idx->unk0[self->ext.pinkeffect.unk7E];
+        if (self->ext.pinkeffect.timer == 0xFF) {
+            switch (data_idx->unk18) {
             case 0x83:
                 if (PLAYER.step == Player_StatusStone) {
                     g_Player.unk5E = 1;
@@ -970,7 +968,7 @@ void EntityPlayerPinkEffect(Entity* self) {
                 break;
             default:
                 CreateEntFactoryFromEntity(
-                    self, (D_800AE120[temp2] << 0x10) + 0x2F, 0);
+                    self, (D_800AE120[data_idx->unk18] << 0x10) + 0x2F, 0);
                 PlaySfx(0x669);
             case 0x82:
                 break;
