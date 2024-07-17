@@ -30,7 +30,6 @@ SetPlayerAnim = 0x8010DA48;
 DecelerateX = 0x8010E1EC;
 AlucardHandleDamage = 0x8011405C;
 PlayerStepHellfire = 0x80116408;
-EntityNumberMovesToHpMeter = 0x80118D0C;
 EntityGuardText = 0x80119588;
 CreateEntFactoryFromEntity = 0x8011AAFC;
 EntityEntFactory = 0x8011AC3C;
